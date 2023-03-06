@@ -1,7 +1,8 @@
-# D++ Windows Bot Template
+# D++ Shoto Bot
 
-A [D++](https://github.com/brainboxdotcc/DPP) Discord Bot template for Visual Studio 2022 (x64 and x86, release and debug). This repository is the result of [this tutorial](https://dpp.dev/build-a-discord-bot-windows-visual-studio.html) with additional enhancements for automatic selection of the correct architecture, and copying of the dll files into the correct folders on successful build.
+This project represents an attempt at porting CitricRain's shouto-bot project from discord.js to D++, a C++ Discord API Bot Library that's lightweight and scalable for small and huge bots.
 
-This template comes packaged with the latest master branch of D++ from the CI. To use this project simply put your code into the `MyBot.cpp` and press F7. You can do much more with this template.
+In addition to porting this bot to almost the same stuff as the original, it will have several changes (e.g. newly-introduced slash commands instead of 's!'-prefixed commands).
 
-For support and assistance please join [the official support discord](https://discord.gg/dpp).
+This bot's base is brainboxdotcc's windows-bot-template DPP bot template, thus the required IDE for this project is Visual Studio 2022.
+
