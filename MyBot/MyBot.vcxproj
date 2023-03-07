@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -182,6 +182,7 @@
     <ClCompile Include="BotMain.cpp" />
     <ClCompile Include="Shoto_Base.cpp" />
     <ClCompile Include="Shoto_Debug.cpp" />
+    <ClCompile Include="Shoto_Fun.cpp" />
     <ClCompile Include="Shoto_Information.cpp" />
     <ClCompile Include="Snowflake2Time.cpp" />
   </ItemGroup>
@@ -231,6 +232,7 @@
     <ClInclude Include="BotBuildChecks.h" />
     <ClInclude Include="Shoto_Base.h" />
     <ClInclude Include="Shoto_Debug.h" />
+    <ClInclude Include="Shoto_Fun.h" />
     <ClInclude Include="Shoto_Include.h" />
     <ClInclude Include="Shoto_Information.h" />
     <ClInclude Include="Snowflake2Time.h" />
