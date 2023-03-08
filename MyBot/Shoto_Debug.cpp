@@ -22,6 +22,7 @@
 ** History:
 ** when			who				what, where, why
 ** MM-DD-YYYY-- --------------- --------------------------------
+** 03/08/2023	raulmrio28-git	Simplify debug print function to change the type string, not printf for every type
 ** 03/04/2023	raulmrio28-git	Initial version
 ** ===========================================================================
 */
@@ -170,12 +171,14 @@ char* pszGetTime()
 ** History:
 ** when			who				what, where, why
 ** MM-DD-YYYY-- --------------- --------------------------------
+** 03/08/2023	raulmrio28-git	Simplify debug print function to change the type string, not printf for every type
 ** 03/04/2023	raulmrio28-git	Initial version
 ** ---------------------------------------------------------------------------
 */
 
 void Shoto_Log (LOG_TYPES_E nLevel, const char *pszFile, int nLine, const char *pszFunction, const char* pszString, ...)
 {
+	char* pszDebugType = NULL;
 	va_list argList;
 	va_start(argList, pszString);
 	vsprintf_s(szBuffer, sizeof(szBuffer), pszString, argList);
@@ -183,20 +186,21 @@ void Shoto_Log (LOG_TYPES_E nLevel, const char *pszFile, int nLine, const char *
 	switch (nLevel)
 	{
 	case LOGLEVEL_DEBUG:
-		printf(CONSTSTR_DEBUG"[%s-%s] FILE:%s LINE:%d %s->%s\n", pszGetDate(), pszGetTime(), pszFile, nLine, pszFunction, szBuffer);
-		break; 
+		pszDebugType = (char*)CONSTSTR_DEBUG;
+		break;
 	case LOGLEVEL_INFO:
-		printf(CONSTSTR_INFO"[%s-%s] FILE:%s LINE:%d %s->%s\n", pszGetDate(), pszGetTime(), pszFile, nLine, pszFunction, szBuffer);
+		pszDebugType = (char*)CONSTSTR_INFO;
 		break; 
 	case LOGLEVEL_WARN:
-		printf(CONSTSTR_WARNING"[%s-%s] FILE:%s LINE:%d %s->%s\n", pszGetDate(), pszGetTime(), pszFile, nLine, pszFunction, szBuffer);
+		pszDebugType = (char*)CONSTSTR_WARNING;
 		break;
 	case LOGLEVEL_ERROR:
-		printf(CONSTSTR_ERROR"[%s-%s] FILE:%s LINE:%d %s->%s\n", pszGetDate(), pszGetTime(), pszFile, nLine, pszFunction, szBuffer);
+		pszDebugType = (char*)CONSTSTR_ERROR;
 		break;
 	default:
 		break;
 	}
+	printf("%s[%s-%s] FILE:%s LINE:%d %s->%s\n", pszDebugType, pszGetDate(), pszGetTime(), pszFile, nLine, pszFunction, szBuffer);
 	free(pszBuffer);
 	memset(szBuffer, sizeof(szBuffer), 0);
 }
