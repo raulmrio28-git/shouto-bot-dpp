@@ -22,7 +22,8 @@
  ** Licensed under the Apache License, Version 2.0. All rights reserved.
  ** History:
  ** when			who				what, where, why
- ** MM-DD-YYYY-- --------------- --------------------------------
+ ** MM-DD-YYYY- --------------- --------------------------------
+ ** 03/08/2023	raulmrio28-git	finish MHA_CHARACTER_T
  ** 03/07/2023	raulmrio28-git	Initial version
  ** ===========================================================================
  */
@@ -92,7 +93,21 @@ typedef struct tagMHA_CHARACTER_T  MHA_CHARACTER_T;
 
 struct tagMHA_CHARACTER_T
 {
-
+	std::string szImgUrl;
+	std::string szCharNameRoman;
+	int nHexColor;
+	std::string szCharNameJap;
+	std::string szHeroName;
+	int nDay;
+	int nMonth;
+	std::string szGender;
+	std::string szHeight;
+	std::string szBloodType;
+	std::string szQuirk;
+	std::string szBirthPlace;
+	std::string szOccupation;
+	int nSeatNo;
+	std::string szLikes;
 };
 
  /*
@@ -100,5 +115,6 @@ struct tagMHA_CHARACTER_T
  **  Function(external use only) Declarations
  **---------------------------------------------------------------------------
  */
+extern void botSayCharSheet(dpp::cluster& bot, const dpp::slashcommand_t& event, MHA_CHARACTER_E character);
 
 #endif /* _SHOTO_FUN_H_ */

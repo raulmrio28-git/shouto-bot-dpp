@@ -22,6 +22,7 @@
 ** History:
 ** when			who				what, where, why
 ** MM-DD-YYYY-- --------------- --------------------------------
+** 03/11/2023	raulmrio28-git	Add Shoto_Fun.h
 ** 03/04/2023	raulmrio28-git	Initial version
 ** ===========================================================================
 */
@@ -38,6 +39,7 @@
 #include "Shoto_Debug.h"
 #include "Shoto_Base.h"
 #include "Shoto_Information.h"
+#include "Shoto_Fun.h"
 #include <string> /* std::string */
 #include <vector> /* std::vector */
 #include <sstream> /* std::stringstream */

@@ -7299,6 +7299,7 @@ class lexer : public lexer_base<BasicJsonType>
                             continue;
                     }
                 }
+                break;
             }
 
             // unexpected character after reading '/'
@@ -7306,6 +7307,7 @@ class lexer : public lexer_base<BasicJsonType>
             {
                 error_message = "invalid comment; expecting '/' or '*' after '/'";
                 return false;
+                break;
             }
         }
     }

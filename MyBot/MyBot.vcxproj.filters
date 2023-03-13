@@ -185,5 +185,8 @@
     <ClInclude Include="Shoto_Fun.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="MhaCharacterInfo.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

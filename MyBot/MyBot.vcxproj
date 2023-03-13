@@ -230,6 +230,7 @@
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\win32_safe_warnings.h" />
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\wsclient.h" />
     <ClInclude Include="BotBuildChecks.h" />
+    <ClInclude Include="MhaCharacterInfo.h" />
     <ClInclude Include="Shoto_Base.h" />
     <ClInclude Include="Shoto_Debug.h" />
     <ClInclude Include="Shoto_Fun.h" />
