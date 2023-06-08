@@ -26,7 +26,7 @@
 #include <dpp/utility.h>
 #include <dpp/voicestate.h>
 #include <dpp/message.h>
-#include <dpp/nlohmann/json_fwd.hpp>
+#include <dpp/json_fwd.h>
 #include <dpp/permissions.h>
 #include <dpp/json_interface.h>
 #include <unordered_map>
@@ -249,7 +249,9 @@ struct DPP_EXPORT forum_tag : public managed {
 	forum_tag& set_name(const std::string& name);
 };
 
-/** @brief A group of thread member objects*/
+/**
+ * @brief A group of thread member objects. the key is the thread_id of the dpp::thread_member
+ */
 typedef std::unordered_map<snowflake, thread_member> thread_member_map;
 
 /**
@@ -405,6 +407,14 @@ public:
 	channel& set_default_forum_layout(forum_layout_type layout_type);
 
 	/**
+	 * @brief Set the default forum sort order for the forum channel
+	 *
+	 * @param sort_order The sort order
+	 * @return Reference to self, so these method calls may be chained
+	 */
+	channel& set_default_sort_order(default_forum_sort_order_t sort_order);
+
+	/**
 	 * @brief Set flags for this channel object
 	 *
 	 * @param flags Flag bitmask to set from dpp::channel_flags
@@ -494,16 +504,39 @@ public:
 	channel& set_rate_limit_per_user(const uint16_t rate_limit_per_user);
 
 	/**
-	 * @brief Add a permission_overwrite to this channel object
-	 * 
-	 * @param id ID of the role or the member you want to add overwrite for
-	 * @param type type of overwrite
-	 * @param allowed_permissions bitmask of allowed permissions (refer to enum dpp::permissions) for this user/role in this channel
-	 * @param denied_permissions bitmask of denied permissions (refer to enum dpp::permissions) for this user/role in this channel
+	 * @brief Add permission overwrites for a user or role.
+	 * If the channel already has permission overwrites for the passed target, the existing ones will be adjusted by the passed permissions
 	 *
-	 * @return Reference to self, so these method calls may be chained 
+	 * @param target ID of the role or the member you want to adjust overwrites for
+	 * @param type type of overwrite
+	 * @param allowed_permissions bitmask of dpp::permissions you want to allow for this user/role in this channel. Note: You can use the dpp::permission class
+	 * @param denied_permissions bitmask of dpp::permissions you want to deny for this user/role in this channel. Note: You can use the dpp::permission class
+	 *
+	 * @return Reference to self, so these method calls may be chained
 	 */
-	channel& add_permission_overwrite(const snowflake id, const overwrite_type type, const uint64_t allowed_permissions, const uint64_t denied_permissions);
+	channel& add_permission_overwrite(const snowflake target, const overwrite_type type, const uint64_t allowed_permissions, const uint64_t denied_permissions);
+	/**
+	 * @brief Set permission overwrites for a user or role on this channel object. Old permission overwrites for the target will be overwritten
+	 *
+	 * @param target ID of the role or the member you want to set overwrites for
+	 * @param type type of overwrite
+	 * @param allowed_permissions bitmask of allowed dpp::permissions for this user/role in this channel. Note: You can use the dpp::permission class
+	 * @param denied_permissions bitmask of denied dpp::permissions for this user/role in this channel. Note: You can use the dpp::permission class
+	 *
+	 * @return Reference to self, so these method calls may be chained
+	 *
+	 * @note If both `allowed_permissions` and `denied_permissions` parameters are 0, the permission overwrite for the target will be removed
+	 */
+	channel& set_permission_overwrite(const snowflake target, const overwrite_type type, const uint64_t allowed_permissions, const uint64_t denied_permissions);
+	/**
+	 * @brief Remove channel specific permission overwrites of a user or role
+	 *
+	 * @param target ID of the role or the member you want to remove permission overwrites of
+	 * @param type type of overwrite
+	 *
+	 * @return Reference to self, so these method calls may be chained
+	 */
+	channel& remove_permission_overwrite(const snowflake target, const overwrite_type type);
 
 	/**
 	 * @brief Get the channel type
@@ -574,10 +607,12 @@ public:
 	/**
 	 * @brief Get the channel's icon url (if its a group DM), otherwise returns an empty string
 	 *
-	 * @param size The size of the icon in pixels. It can be any power of two between 16 and 4096. if not specified, the default sized icon is returned.
-	 * @return std::string icon url or empty string
+	 * @param size The size of the icon in pixels. It can be any power of two between 16 and 4096,
+	 * otherwise the default sized icon is returned.
+	 * @param format The format to use for the avatar. It can be one of `i_webp`, `i_jpg` or `i_png`.
+	 * @return std::string icon url or an empty string, if required attributes are missing or an invalid format was passed
 	 */
-	std::string get_icon_url(uint16_t size = 0) const;
+	std::string get_icon_url(uint16_t size = 0, const image_type format = i_png) const;
 
 	/**
 	 * @brief Returns true if the channel is NSFW gated
@@ -722,7 +757,7 @@ public:
 	 */
 	uint8_t message_count;
 
-	/** Approximate count of members in a thread (threads) */
+	/** Approximate count of members in a thread (stops counting at 50) */
 	uint8_t member_count;
 
 	/**
@@ -798,6 +833,14 @@ typedef std::unordered_map<snowflake, channel> channel_map;
  * @brief A group of threads
  */
 typedef std::unordered_map<snowflake, thread> thread_map;
+
+/**
+ * @brief A group of threads and thread_members. returned from the cluster::threads_get_active method
+ */
+typedef struct {
+	thread_map threads;
+	thread_member_map thread_members;
+} active_threads;
 
 };
 

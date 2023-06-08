@@ -22,7 +22,7 @@
 #include <variant>
 #include <dpp/export.h>
 #include <dpp/managed.h>
-#include <dpp/nlohmann/json_fwd.hpp>
+#include <dpp/json_fwd.h>
 #include <dpp/permissions.h>
 #include <dpp/guild.h>
 #include <dpp/json_interface.h>
@@ -31,10 +31,12 @@ namespace dpp {
 
 /** Various flags related to dpp::role */
 enum role_flags : uint8_t {
-	r_hoist =		0b00000001, //!< Hoisted role
+	r_hoist =		0b00000001, //!< Hoisted role (if the role is pinned in the user listing)
 	r_managed =		0b00000010, //!< Managed role (introduced by a bot or application)
-	r_mentionable =		0b00000100, //!< Mentionable with a ping
-	r_premium_subscriber =	0b00001000, //!< This is set for the role given to nitro 
+	r_mentionable =		0b00000100, //!< Whether this role is mentionable with a ping
+	r_premium_subscriber =	0b00001000, //!< Whether this is the guild's booster role
+	r_available_for_purchase = 0b00010000, //!< Whether the role is available for purchase
+	r_guild_connections = 0b00100000, //!< Whether the role is a guild's linked role
 };
 
 /**
@@ -72,6 +74,8 @@ public:
 	snowflake integration_id;
 	/** Bot id if any (e.g. role is a bot's role created when it was invited) */
 	snowflake bot_id;
+	/** The id of the role's subscription sku and listing */
+	snowflake subscription_listing_id;
 	/** The unicode emoji used for the role's icon, can be an empty string */
 	std::string unicode_emoji;
 	/** The role icon hash, can be an empty string */
@@ -189,18 +193,20 @@ public:
 	std::string get_mention() const;
 
 	/**
-	 * @brief Returns the role's icon if they have one, otherwise returns an empty string
+	 * @brief Returns the role's icon url if they have one, otherwise returns an empty string
 	 *
-	 * @param size The size of the icon in pixels. It can be any power of two between 16 and 4096. If not specified, the default sized icon is returned.
-	 * @return std::string icon url or empty string
+	 * @param size The size of the icon in pixels. It can be any power of two between 16 and 4096,
+	 * otherwise the default sized icon is returned.
+	 * @param format The format to use for the avatar. It can be one of `i_webp`, `i_jpg` or `i_png`.
+	 * @return std::string icon url or an empty string, if required attributes are missing or an invalid format was passed
 	 */
-	std::string get_icon_url(uint16_t size = 0) const;
+	std::string get_icon_url(uint16_t size = 0, const image_type format = i_png) const;
 
 	/**
 	 * @brief Load an image into the object as base64
 	 * 
 	 * @param image_blob Image binary data
-	 * @param type Type of image
+	 * @param type Type of image. It can be one of `i_gif`, `i_jpg` or `i_png`.
 	 * @return emoji& Reference to self
 	 */
 	role& load_image(const std::string &image_blob, const image_type type);
@@ -266,6 +272,21 @@ public:
 	 * @return bool True if the role is managed (introduced for a bot or other application by Discord)
 	 */
 	bool is_managed() const;
+	/**
+	 * @brief True if the role is the guild's Booster role
+	 * @return bool whether the role is the premium subscriber, AKA "boost", role for the guild
+	 */
+	bool is_premium_subscriber() const;
+	/**
+	 * @brief True if the role is available for purchase
+	 * @return bool whether this role is available for purchase
+	 */
+	bool is_available_for_purchase() const;
+	/**
+	 * @brief True if the role is a linked role
+	 * @return bool True if the role is a linked role
+	 */
+	bool is_linked() const;
 	/**
 	 * @brief True if has create instant invite permission
 	 * @note Having the administrator permission causes this method to always return true
@@ -548,6 +569,34 @@ public:
 	 * @return bool True if user has the moderate users permission or is administrator.
 	 */
 	bool has_moderate_members() const;
+	/**
+	 * @brief True if has the view creator monetization analytics permission.
+	 * @note Having the administrator permission causes this method to always return true
+	 * Channel specific overrides may apply to permissions.
+	 * @return bool True if user has the view creator monetization analytics permission or is administrator.
+	 */
+	bool has_view_creator_monetization_analytics() const;
+	/**
+	 * @brief True if has the use soundboard permission.
+	 * @note Having the administrator permission causes this method to always return true
+	 * Channel specific overrides may apply to permissions.
+	 * @return bool True if user has the use soundboard permission or is administrator.
+	 */
+	bool has_use_soundboard() const;
+	/**
+	 * @brief True if has the use external sounds permission.
+	 * @note Having the administrator permission causes this method to always return true
+	 * Channel specific overrides may apply to permissions.
+	 * @return bool True if user has the use external sounds permission or is administrator.
+	 */
+	bool has_use_external_sounds() const;
+	/**
+	 * @brief True if has the send voice messages permission.
+	 * @note Having the administrator permission causes this method to always return true
+	 * Channel specific overrides may apply to permissions.
+	 * @return bool True if user has the send voice messages permission or is administrator.
+	 */
+	bool has_send_voice_messages() const;
 
 	/**
 	 * @brief Get guild members who have this role
@@ -579,10 +628,10 @@ enum application_role_connection_metadata_type : uint8_t {
 class DPP_EXPORT application_role_connection_metadata : public json_interface<application_role_connection_metadata> {
 public:
 	application_role_connection_metadata_type type; //!< Type of metadata value
-	std::string key; //!< Dictionary key for the metadata field (must be `a-z`, `0-9`, or `_` characters; max 50 characters)
-	std::string name; //!< Name of the metadata field (max 100 characters)
+	std::string key; //!< Dictionary key for the metadata field (must be `a-z`, `0-9`, or `_` characters; 1-50 characters)
+	std::string name; //!< Name of the metadata field (1-100 characters)
 	std::map<std::string, std::string> name_localizations; //!< Translations of the name
-	std::string description; //!< Description of the metadata field (max 200 characters)
+	std::string description; //!< Description of the metadata field (1-200 characters)
 	std::map<std::string, std::string> description_localizations; //!< Translations of the description
 
 	/**

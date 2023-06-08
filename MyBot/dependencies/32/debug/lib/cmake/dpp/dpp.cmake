@@ -7,7 +7,7 @@ if(CMAKE_VERSION VERSION_LESS "2.8.3")
    message(FATAL_ERROR "CMake >= 2.8.3 required")
 endif()
 cmake_policy(PUSH)
-cmake_policy(VERSION 2.8.3...3.23)
+cmake_policy(VERSION 2.8.3...3.24)
 #----------------------------------------------------------------
 # Generated CMake target import file.
 #----------------------------------------------------------------
@@ -59,6 +59,7 @@ endif()
 add_library(dpp::dpp SHARED IMPORTED)
 
 set_target_properties(dpp::dpp PROPERTIES
+  INTERFACE_COMPILE_FEATURES "cxx_std_17"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include/dpp-10.0"
   INTERFACE_LINK_LIBRARIES "D:/a/DPP/DPP/main/win32/32/lib/libssl.lib;D:/a/DPP/DPP/main/win32/32/lib/libcrypto.lib;D:/a/DPP/DPP/main/win32/32/lib/zlib.lib;D:/a/DPP/DPP/main/win32/32/lib/libsodium.lib;D:/a/DPP/DPP/main/win32/32/lib/opus.lib;D:/a/DPP/DPP/main/win32/32/lib/libssl.lib;D:/a/DPP/DPP/main/win32/32/lib/libcrypto.lib;D:/a/DPP/DPP/main/win32/32/lib/zlib.lib;D:/a/DPP/DPP/main/win32/32/lib/libsodium.lib;D:/a/DPP/DPP/main/win32/32/lib/opus.lib;D:/a/DPP/DPP/main/library/../win32/32/lib/libssl.lib;D:/a/DPP/DPP/main/library/../win32/32/lib/libcrypto.lib;D:/a/DPP/DPP/main/library/../win32/32/lib/libsodium.lib;D:/a/DPP/DPP/main/library/../win32/32/lib/opus.lib;D:/a/DPP/DPP/main/library/../win32/32/lib/zlib.lib;D:/a/DPP/DPP/main/win32/32/lib/libsodium.lib;D:/a/DPP/DPP/main/win32/32/lib/opus.lib"
 )

@@ -28,14 +28,64 @@
 #include <map>
 #include <functional>
 
+#ifndef MAX_CND_IMAGE_SIZE
+	#define MAX_CDN_IMAGE_SIZE 4096
+#endif
+#ifndef MIN_CDN_IMAGE_SIZE
+	#define MIN_CDN_IMAGE_SIZE 16
+#endif
+
 /**
  * @brief The main namespace for D++ functions, classes and types
  */
 namespace dpp {
+
+	enum sticker_format : uint8_t;
+
 	/**
 	 * @brief Utility helper functions, generally for logging, running programs, time/date manipulation, etc
 	 */
 	namespace utility {
+
+		/**
+		 * For internal use only. Helper function to easily create discord's cdn endpoint urls
+		 * @see https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints
+		 * @param allowed_formats A vector of supported formats for the endpoint from the discord docs
+		 * @param path_without_extension The path for the endpoint (without the extension e.g. `.png`)
+		 * @param format the wished format to return. Must be one of the formats passed in `allowed_formats`, otherwise it returns an empty string
+		 * @param size the image size which will be appended as a querystring to the url.
+		 * It must be any power of two between 16 and 4096, otherwise no querystring will be appended (discord then returns the image as their default size)
+		 * @param prefer_animated Whether the user prefers gif format. If true, it'll return gif format whenever the image is available as animated.
+		 * In this case, the `format`-parameter is only used for non-animated images.
+		 * @param is_animated Whether the image is actually animated or not
+		 * @return std::string endpoint url or empty string
+		 */
+		std::string DPP_EXPORT cdn_endpoint_url(const std::vector<image_type> &allowed_formats, const std::string &path_without_extension, const dpp::image_type format, uint16_t size, bool prefer_animated = false, bool is_animated = false);
+
+		/**
+		 * For internal use only. Helper function to easily create discord's cdn endpoint urls
+		 * @see https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints
+		 * @param allowed_formats A vector of supported formats for the endpoint from the discord docs
+		 * @param path_without_extension The path for the endpoint (without the extension e.g. `.png`)
+		 * @param hash The hash (optional). If not empty, it will be prefixed with `a_` for animated images (`is_animated`=true)
+		 * @param format the wished format to return. Must be one of the formats passed in `allowed_formats`, otherwise it returns an empty string
+		 * @param size the image size which will be appended as a querystring to the url.
+		 * It must be any power of two between 16 and 4096, otherwise no querystring will be appended (discord then returns the image as their default size)
+		 * @param prefer_animated Whether the user prefers gif format. If true, it'll return gif format whenever the image is available as animated.
+		 * In this case, the `format`-parameter is only used for non-animated images.
+		 * @param is_animated Whether the image is actually animated or not
+		 * @return std::string endpoint url or empty string
+		 */
+		std::string DPP_EXPORT cdn_endpoint_url_hash(const std::vector<image_type> &allowed_formats, const std::string &path_without_extension, const std::string &hash, const dpp::image_type format, uint16_t size, bool prefer_animated = false, bool is_animated = false);
+
+		/**
+		 * For internal use only. Helper function to easily create discord's cdn endpoint urls (specialised for stickers)
+		 * @see https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints
+		 * @param sticker_id The sticker ID. Returns empty string if 0
+		 * @param format The format type
+		 * @return std::string endpoint url or empty string
+		 */
+		std::string DPP_EXPORT cdn_endpoint_url_sticker(snowflake sticker_id, sticker_format format);
 
 		/**
 		 * @brief Timestamp formats for dpp::utility::timestamp()
@@ -64,7 +114,7 @@ namespace dpp {
 		/**
 		 * @brief The base URL for CDN content such as profile pictures and guild icons.
 		 */
-		const std::string cdn_host = "https://cdn.discordapp.com"; 
+		inline const std::string cdn_host = "https://cdn.discordapp.com"; 
 
 		/**
 		 * @brief Callback for the results of a command executed via dpp::utility::exec
@@ -337,7 +387,7 @@ namespace dpp {
 		 * @note Be aware this function can block! If you are regularly reading large files, consider caching them.
 		 * @param filename The path to the file to read
 		 * @return std::string The file contents
-		 * @throw dpp::exception on failure to read the entire file
+		 * @throw dpp::file_exception on failure to read the entire file
 		 */
 		std::string DPP_EXPORT read_file(const std::string& filename);
 
@@ -356,10 +406,10 @@ namespace dpp {
 		std::string DPP_EXPORT validate(const std::string& value, size_t _min, size_t _max, const std::string& exception_message);
 
 		/**
-		 * @brief Return the url parameter for an avatar size, or empty if the size is 0
+		 * @brief Get the url query parameter for the cdn endpoint. Internally used to build url getters.
 		 * 
-		 * @param size size to generate url parameter for
-		 * @return std::string url parameter
+		 * @param size size to generate url parameter for. Must be any power of two between 16 and 4096 (inclusive) or it'll return an empty string.
+		 * @return std::string url query parameter e.g. `?size=128`, or an empty string
 		 */
 		std::string DPP_EXPORT avatar_size(uint32_t size);
 
