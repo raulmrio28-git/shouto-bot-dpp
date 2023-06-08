@@ -56,16 +56,20 @@
 */
 
 std::vector<std::string> vszStatuses = { "with cold soba. | use /help",
-										"Dabi, since he's a Todoroki",
+										"with Dabi, since he's a Todoroki",
 										"with your cute face | use /help",
 										"with my cyberpunk outfit /j  | use /help",
 										"huwi ringtones | use /help",
-										"IS BRAIZ???? | use /help",
+										"a funny | use /help",
 										"with a phone with vizzz ui | use /help",
 										"MHA: The Strongest Hero",
 										"theses trollfeeds | use /help",
 										"Untung pakai Flexi",
-										"Lemon Mobiles: TOMORROW has CHANGED"
+										"Lemon Mobiles: TOMORROW has CHANGED",
+										"LePOW",
+										"Visual Studio 2017",
+										u8"Just вупер | use /help",
+										"nothing, so send your status suggestions to a TodorokiBot developer"
 										};
 
 /*
