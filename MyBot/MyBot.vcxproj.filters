@@ -30,10 +30,10 @@
     <ClCompile Include="Shoto_Information.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Snowflake2Time.cpp">
+    <ClCompile Include="Shoto_Fun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shoto_Fun.cpp">
+    <ClCompile Include="Shoto_Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,13 +179,13 @@
     <ClInclude Include="Shoto_Information.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Snowflake2Time.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Shoto_Fun.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="MhaCharacterInfo.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shoto_Time.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

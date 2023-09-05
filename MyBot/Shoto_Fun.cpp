@@ -14,24 +14,24 @@
  * limitations under the License.
  */
  /*
- ** ===========================================================================
- ** File: Shoto_Fun.cpp
- ** Description: Bot custom code
- ** Copyright (c) 2023 raulmrio28-git and contributors.
- ** D++ bot library: Copyright 2021 Craig Edwards and D++ contributors.
- ** Licensed under the Apache License, Version 2.0. All rights reserved.
- ** History:
- ** when			who				what, where, why
- ** MM-DD-YYYY- --------------- --------------------------------
- ** 03/11/2023	raulmrio28-git	Initial version
- ** ===========================================================================
- */
+** ===========================================================================
+** File: Shoto_Fun.cpp
+** Description: Bot custom code
+** Copyright (c) 2023 raulmrio28-git and contributors.
+** D++ bot library: Copyright 2021 Craig Edwards and D++ contributors.
+** Licensed under the Apache License, Version 2.0. All rights reserved.
+** History:
+** when			who				what, where, why
+** MM-DD-YYYY- --------------- --------------------------------
+** 03/11/2023	raulmrio28-git	Initial version
+** ===========================================================================
+*/
 
- /*
- **----------------------------------------------------------------------------
- **  Includes
- **----------------------------------------------------------------------------
- */
+/*
+**----------------------------------------------------------------------------
+**  Includes
+**----------------------------------------------------------------------------
+*/
 
 #include "Shoto_Fun.h"
 #include "Shoto_Debug.h"

@@ -15,20 +15,21 @@
  */
 /*
 ** ===========================================================================
-** File: Snowflake2Time.cpp
-** Description: Converts Discord snowflake ID to time_t or string
+** File: Shoto_Time.h
+** Description: TodorokiBot header
 ** Copyright (c) 2023 raulmrio28-git and contributors.
 ** Parts of this code are inspired by https://github.com/QuickNET-Tech/dstact.
 ** Licensed under the Apache License, Version 2.0. All rights reserved.
 ** History:
 ** when			who				what, where, why
 ** MM-DD-YYYY-- --------------- --------------------------------
-** 03/05/2023	raulmrio28-git	Initial version
+** 09/05/2023	raulmrio28-git	Initial version. Moves snowflake time code to
+**								here
 ** ===========================================================================
 */
 
-#ifndef _SNOWFLAKE_2_TIME_H_
-#define _SNOWFLAKE_2_TIME_H_
+#ifndef _SHOTO_TIME_H_
+#define _SHOTO_TIME_H_
 
 /*
 **----------------------------------------------------------------------------
@@ -41,7 +42,7 @@
 #include <vector> /* vector */
 
 /*
-**----------------------------------------------------------------------------
+**-----------------------------------------------------------------------------
 **  Type Definitions
 **----------------------------------------------------------------------------
 */
@@ -53,7 +54,7 @@
 */
 
 /*
-**----------------------------------------------------------------------------
+**-----------------------------------------------------------------------------
 **  General Declarations
 **----------------------------------------------------------------------------
 */
@@ -66,5 +67,6 @@
 
 std::string szConv2DigNoToString(int nNumber);
 std::string szConvSfTime2String(unsigned long long ullSnowflake, bool bIsSnowflake);
+std::string szConvTime2String(time_t Time_T);
 
 #endif /* _SNOWFLAKE_2_TIME_H_ */

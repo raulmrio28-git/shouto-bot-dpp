@@ -15,15 +15,17 @@
  */
 /*
 ** ===========================================================================
-** File: Snowflake2Time.cpp
-** Description: Converts Discord snowflake ID to time_t or string
+** File: Shoto_Time.cpp
+** Description: Bot custom code
 ** Copyright (c) 2023 raulmrio28-git and contributors.
+** D++ bot library: Copyright 2021 Craig Edwards and D++ contributors.
 ** Parts of this code are inspired by https://github.com/QuickNET-Tech/dstact.
 ** Licensed under the Apache License, Version 2.0. All rights reserved.
 ** History:
 ** when			who				what, where, why
 ** MM-DD-YYYY-- --------------- --------------------------------
-** 03/05/2023	raulmrio28-git	Initial version
+** 09/05/2023	raulmrio28-git	Initial version. Moves snowflake time code to
+**								here
 ** ===========================================================================
 */
 
@@ -33,7 +35,7 @@
 **----------------------------------------------------------------------------
 */
 
-#include "Snowflake2Time.h"
+#include "Shoto_Time.h"
 
 /*
 **----------------------------------------------------------------------------
@@ -49,7 +51,7 @@
 **----------------------------------------------------------------------------
 */
 
-std::vector<std::string> vszSfMonths = { "Unknown",
+std::vector<std::string> vszMonths = { "Unknown",
 										"January",
 										"February",
 										"March",
@@ -75,8 +77,8 @@ std::vector<std::string> vszSfMonths = { "Unknown",
 **---------------------------------------------------------------------------
 */
 
-time_t snRawtime_T; /* time_t */
-struct tm snTimeinfo_T; /* time struct */
+time_t Rawtime_T; /* time_t */
+struct tm Timeinfo_T; /* time struct */
 std::string szTimeString; /* time string */
 
 /*
@@ -106,6 +108,8 @@ std::string szTimeString; /* time string */
 ** History:
 ** when			who				what, where, why
 ** MM-DD-YYYY-- --------------- --------------------------------
+** 09/05/2023	raulmrio28-git	Initial version. Moves snowflake time code to
+**								here
 ** 03/05/2023	raulmrio28-git	Initial version
 ** ---------------------------------------------------------------------------
 */
@@ -136,6 +140,8 @@ time_t ullSnowflake2Timestamp(unsigned long long ullSnowflake)
 ** History:
 ** when			who				what, where, why
 ** MM-DD-YYYY-- --------------- --------------------------------
+** 09/05/2023	raulmrio28-git	Initial version. Moves snowflake time code to
+**								here
 ** 03/05/2023	raulmrio28-git	Initial version
 ** ---------------------------------------------------------------------------
 */
@@ -152,7 +158,7 @@ std::string szConv2DigNoToString(int nNumber)
 ** ---------------------------------------------------------------------------
 **
 ** Function:
-**     szConvSfTime2String
+**     szConvTime2String
 **
 ** Description:
 **     Convert a Discord snowflake ID to a time and date string
@@ -170,6 +176,8 @@ std::string szConv2DigNoToString(int nNumber)
 ** History:
 ** when			who				what, where, why
 ** MM-DD-YYYY-- --------------- --------------------------------
+** 09/05/2023	raulmrio28-git	Initial version. Moves snowflake time code to
+**								here
 ** 03/05/2023	raulmrio28-git	Initial version
 ** ---------------------------------------------------------------------------
 */
@@ -177,10 +185,43 @@ std::string szConv2DigNoToString(int nNumber)
 std::string szConvSfTime2String(unsigned long long ullSnowflake, bool bIsSnowflake)
 {
 	if (bIsSnowflake == true)
-		snRawtime_T = ullSnowflake2Timestamp(ullSnowflake);
+		Rawtime_T = ullSnowflake2Timestamp(ullSnowflake);
 	else
-		snRawtime_T = ullSnowflake;
-	localtime_s(&snTimeinfo_T, &snRawtime_T);
-	szTimeString = std::to_string(snTimeinfo_T.tm_wday) + " " + vszSfMonths[snTimeinfo_T.tm_mon] + " " + std::to_string(snTimeinfo_T.tm_year + 1900) + ", " + szConv2DigNoToString(snTimeinfo_T.tm_hour) + ":" + szConv2DigNoToString(snTimeinfo_T.tm_min) + ":" + szConv2DigNoToString (snTimeinfo_T.tm_sec);
-	return szTimeString;
+		Rawtime_T = ullSnowflake;
+	localtime_s(&Timeinfo_T, &Rawtime_T);
+	return std::to_string(Timeinfo_T.tm_wday) + " " + vszMonths[Timeinfo_T.tm_mon] + " " + std::to_string(Timeinfo_T.tm_year + 1900) + ", " + szConv2DigNoToString(Timeinfo_T.tm_hour) + ":" + szConv2DigNoToString(Timeinfo_T.tm_min) + ":" + szConv2DigNoToString(Timeinfo_T.tm_sec);
+}
+
+/*
+** ---------------------------------------------------------------------------
+**
+** Function:
+**     szConvTime2String
+**
+** Description:
+**     Convert a time_t to a time and date string
+**
+** Input:
+**     ullTime - the time (time_t)
+**
+** Output:
+**     time_t to a time and date string
+**
+** Return value:
+**     szTimeString
+**
+** History:
+** when			who				what, where, why
+** MM-DD-YYYY-- --------------- --------------------------------
+** 09/05/2023	raulmrio28-git	Initial version. Moves Information time code
+**								to here
+** 03/05/2023	raulmrio28-git	Initial version
+** ---------------------------------------------------------------------------
+*/
+
+std::string szConvTime2String(time_t Time_T)
+{
+	Rawtime_T = Time_T;
+	localtime_s(&Timeinfo_T, &Rawtime_T);
+	return std::to_string(Timeinfo_T.tm_wday) + " " + vszMonths[Timeinfo_T.tm_mon] + " " + std::to_string(Timeinfo_T.tm_year + 1900) + ", " + szConv2DigNoToString(Timeinfo_T.tm_hour) + ":" + szConv2DigNoToString(Timeinfo_T.tm_min) + ":" + szConv2DigNoToString(Timeinfo_T.tm_sec);
 }

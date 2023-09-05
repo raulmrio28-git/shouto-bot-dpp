@@ -184,7 +184,7 @@
     <ClCompile Include="Shoto_Debug.cpp" />
     <ClCompile Include="Shoto_Fun.cpp" />
     <ClCompile Include="Shoto_Information.cpp" />
-    <ClCompile Include="Snowflake2Time.cpp" />
+    <ClCompile Include="Shoto_Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BotIncludes.h" />
@@ -236,7 +236,7 @@
     <ClInclude Include="Shoto_Fun.h" />
     <ClInclude Include="Shoto_Include.h" />
     <ClInclude Include="Shoto_Information.h" />
-    <ClInclude Include="Snowflake2Time.h" />
+    <ClInclude Include="Shoto_Time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
